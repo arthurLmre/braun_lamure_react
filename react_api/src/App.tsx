@@ -1,26 +1,82 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router } from 'react-router-dom '
 import './App.css';
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+type ApiRes = {
+    results: Characters[]
+    info:any
 }
+
+type Characters = {
+    id: number
+    name: string
+    status: string
+    species: string
+    type: string
+    gender: string
+    origin: {
+        name: string
+        url: string
+    }
+    location: {
+        name: string
+        url: string
+    }
+    image: string
+    episode: [string]
+    url: string
+    created: string
+}
+
+//`http://localhost:3000/users?_page=${page}&_limit=${limit}`
+const getCharacters = (page = 1, limit = 2) =>
+    fetch(`https://rickandmortyapi.com/api/character/?page=${page}`, {
+        headers: { Accept: 'application/json' },
+    }).then<ApiRes>(res => res.json())
+
+const getCharactersId = (id: number) => {
+    console.log(id);
+    return id
+}
+
+
+const App: React.FC = () => {
+    const [characters, setCharacters] = React.useState<Characters[]>([])
+    const [loading, setLoading] = React.useState(false)
+    const [page, setPage] = React.useState(1)
+
+    React.useEffect(() => {
+        let cancel = false
+        setLoading(true)
+
+        getCharacters(page).then(data => {
+            if (!cancel) {
+                console.log('data: ', data)
+                setCharacters(data.results.map(d => d))
+                setLoading(false)
+            }
+        })
+
+        return () => {
+            cancel = true
+        }
+    }, [page])
+
+    return (
+        <div className="App">
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
+                characters.map(character => <p key={character.id} onClick={() => getCharactersId(character.id)}>{character.name}</p>)
+            )}
+            <button disabled={loading} onClick={() => setPage(page - 1)}>
+                Previous
+            </button>
+            <button disabled={loading} onClick={() => setPage(page + 1)}>
+                Next
+            </button>
+        </div>
+    )
+};
 
 export default App;

@@ -20,3 +20,12 @@
 .App-link {
   color: #09d3ac;
 }
+
+.ButtonStyle{
+  margin: 12px;
+  background-color: steelblue;
+}
+
+.ButtonStyle:hover{
+    background-color: #B58A47;
+}

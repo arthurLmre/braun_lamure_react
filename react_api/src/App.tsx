@@ -1,10 +1,18 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom '
 import './App.css';
+import Button from '@material-ui/core/Button'
+import {StylesProvider} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+
 
 type ApiRes = {
     results: Characters[]
-    info:any
+    info: any
 }
 
 type Characters = {
@@ -31,7 +39,7 @@ type Characters = {
 //`http://localhost:3000/users?_page=${page}&_limit=${limit}`
 const getCharacters = (page = 1, limit = 2) =>
     fetch(`https://rickandmortyapi.com/api/character/?page=${page}`, {
-        headers: { Accept: 'application/json' },
+        headers: {Accept: 'application/json'},
     }).then<ApiRes>(res => res.json())
 
 const getCharactersId = (id: number) => {
@@ -63,19 +71,23 @@ const App: React.FC = () => {
     }, [page])
 
     return (
-        <div className="App">
-            {loading ? (
-                <p>Loading...</p>
-            ) : (
-                characters.map(character => <p key={character.id} onClick={() => getCharactersId(character.id)}>{character.name}</p>)
-            )}
-            <button disabled={loading} onClick={() => setPage(page - 1)}>
-                Previous
-            </button>
-            <button disabled={loading} onClick={() => setPage(page + 1)}>
-                Next
-            </button>
-        </div>
+        <StylesProvider injectFirst>
+            <div className="App">
+                {loading ? (
+                    <p>Loading...</p>
+                ) : (
+                    characters.map(character => <p key={character.id}
+                                                   onClick={() => getCharactersId(character.id)}>{character.name}</p>)
+                )}
+                <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary" disabled={loading}
+                        onClick={() => setPage(page - 1)}>
+                    Previous
+                </Button>
+                <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary" disabled={loading} onClick={() => setPage(page + 1)}>
+                    Next
+                </Button>
+            </div>
+        </StylesProvider>
     )
 };
 

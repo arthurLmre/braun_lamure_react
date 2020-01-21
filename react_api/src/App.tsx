@@ -2,10 +2,8 @@ import React from 'react';
 import './App.css';
 import Button from '@material-ui/core/Button'
 import {StylesProvider} from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
@@ -76,19 +74,40 @@ const App: React.FC = () => {
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
-                    characters.map(character => <p key={character.id}
-                                                   onClick={() => getCharactersId(character.id)}>{character.name}</p>)
+                    <List>
+                        {characters.map(character => {
+                            const labelId = `checkbox-list-secondary-label-${character}`;
+                            return (
+                                <ListItem key={character.id} button>
+                                    <ListItemAvatar>
+                                        <Avatar
+                                            alt={`Avatar n°${character.id}`}
+                                            src={`${character.image}`}
+                                        />
+                                    </ListItemAvatar>
+                                    <p>{character.name}</p>
+                                </ListItem>
+                            );
+                        })}
+                    </List>
                 )}
                 <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary" disabled={loading}
                         onClick={() => setPage(page - 1)}>
                     Previous
                 </Button>
-                <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary" disabled={loading} onClick={() => setPage(page + 1)}>
+                <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary" disabled={loading}
+                        onClick={() => setPage(page + 1)}>
                     Next
                 </Button>
             </div>
         </StylesProvider>
     )
 };
+
+const transformCharacters = (characters: Characters[]) => {
+    return characters.map(character =>
+        <p key={character.id} onClick={() => getCharactersId(character.id)}>{character.name}</p>
+    )
+}
 
 export default App;

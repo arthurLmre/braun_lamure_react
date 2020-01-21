@@ -71,6 +71,9 @@ const ViewDetails: React.FC = () => {
                     <div className={"CenterDetails"}>
                         <h1> {characters?.name} </h1>
                         <img src={characters?.image}/>
+                        <p> {characters?.species} </p>
+                        <p> {characters?.location.name} </p>
+                        <p> {characters?.status} </p>
                     </div>
                 </Route>
             </Router>

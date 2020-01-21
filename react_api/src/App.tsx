@@ -49,13 +49,6 @@ type Characters = {
     created: string
 }
 
-
-
-const getCharacters = (page = 1, name: string = "") =>
-    fetch(name == "" ? `https://rickandmortyapi.com/api/character/?page=${page}` : `https://rickandmortyapi.com/api/character/?name=+${name}+`, {
-        headers: {Accept: 'application/json'},
-    }).then<ApiRes>(res => res.json())
-
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
@@ -112,12 +105,14 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+const getCharacters = (page = 1, name: string = "") =>
+    fetch(name == "" ? `https://rickandmortyapi.com/api/character/?page=${page}` : `https://rickandmortyapi.com/api/character/?name=+${name}+`, {
+        headers: {Accept: 'application/json'},
+    }).then<ApiRes>(res => res.json())
 
 const getCharactersId = (id: number) => {
-    console.log('id: ', id)
     return id
 }
-
 
 const App: React.FC = () => {
     const [characters, setCharacters] = React.useState<Characters[]>([])
@@ -129,19 +124,19 @@ const App: React.FC = () => {
         let cancel = false
         setLoading(true)
 
-
         getCharacters(page, inputCharacterName).then(data => {
             if (!cancel) {
-                console.log('data: ', data)
-                setCharacters(data.results.map(d => d))
-                setLoading(false)
+                if(data != null && data.results != null){
+                    setCharacters(data.results.map(d => d))
+                    setLoading(false)
+                }
             }
         })
 
         return () => {
             cancel = true
         }
-    }, [page])
+    }, [page, inputCharacterName])
 
     return (
         <StylesProvider injectFirst>
@@ -176,7 +171,7 @@ const App: React.FC = () => {
                                                 input: useStyles().inputInput,
                                             }}
                                             inputProps={{ 'aria-label': 'search' }}
-                                            onChange={() => setInputCharacterName(inputCharacterName)}
+                                            onChange={(e) => setInputCharacterName(e.target.value)}
                                             value={inputCharacterName}
                                         />
                                     </div>
@@ -206,12 +201,12 @@ const App: React.FC = () => {
                             <footer className={"Footer"}>
                                 <div className={"CenterButton"}>
                                     <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary"
-                                            disabled={loading}
+                                            disabled={loading || inputCharacterName !=""}
                                             onClick={() => setPage((page - 1) < 0 ? page : page - 1)}>
                                         Previous
                                     </Button>
                                     <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary"
-                                            disabled={loading}
+                                            disabled={loading || inputCharacterName !=""}
                                             onClick={() => setPage((page + 1) > 25 ? page : page + 1)}>
                                         Next
                                     </Button>

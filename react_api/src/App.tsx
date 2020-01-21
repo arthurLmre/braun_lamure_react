@@ -203,7 +203,7 @@ const App: React.FC = () => {
                         <div className="App">
                             <CustomAppBar/>
                             {loading ? (
-                                <p>Loading...</p>
+                                <div className="lds-ripple"><div></div><div></div></div>
                             ) : (
                                 <CustomListView characters={characters}/>
                             )}

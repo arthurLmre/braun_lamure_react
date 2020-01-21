@@ -49,3 +49,12 @@ a {
   text-decoration: none;
   color: black;
 }
+
+
+#rickAndMortyListView {
+  margin-top: 9rem;
+}
+
+.InputBase {
+  padding: 1px 1px 1px 7px;
+}

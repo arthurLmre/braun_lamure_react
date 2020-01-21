@@ -43,6 +43,13 @@ type Characters = {
     created: string
 }
 
+
+
+const getCharacters = (page = 1, name: string = "") =>
+    fetch(name == "" ? `https://rickandmortyapi.com/api/character/?page=${page}` : `https://rickandmortyapi.com/api/character/?name=+${name}+`, {
+        headers: {Accept: 'application/json'},
+    }).then<ApiRes>(res => res.json())
+
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
@@ -98,12 +105,6 @@ const useStyles = makeStyles(theme => ({
 
     },
 }));
-
-
-const getCharacters = (page = 1, limit = 2) =>
-    fetch(`https://rickandmortyapi.com/api/character/?page=${page}`, {
-        headers: {Accept: 'application/json'},
-    }).then<ApiRes>(res => res.json())
 
 const getCharactersId = (id: number) => {
     console.log('id: ', id)
@@ -174,12 +175,14 @@ const App: React.FC = () => {
     const [characters, setCharacters] = React.useState<Characters[]>([])
     const [loading, setLoading] = React.useState(false)
     const [page, setPage] = React.useState(1)
+    const [inputCharacterName, setInputCharacterName] = React.useState("")
 
     React.useEffect(() => {
         let cancel = false
         setLoading(true)
 
-        getCharacters(page).then(data => {
+
+        getCharacters(page, inputCharacterName).then(data => {
             if (!cancel) {
                 console.log('data: ', data)
                 setCharacters(data.results.map(d => d))

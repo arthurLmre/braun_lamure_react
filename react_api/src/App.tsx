@@ -1,6 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom '
+import {
+    BrowserRouter as Router,
+    Link,
+    Switch,
+    Route
+} from 'react-router-dom'
 import './App.css';
+import ViewDetails from "./viewDetail/ViewDetails";
 
 type ApiRes = {
     results: Characters[]
@@ -28,14 +34,13 @@ type Characters = {
     created: string
 }
 
-//`http://localhost:3000/users?_page=${page}&_limit=${limit}`
 const getCharacters = (page = 1, limit = 2) =>
     fetch(`https://rickandmortyapi.com/api/character/?page=${page}`, {
         headers: { Accept: 'application/json' },
     }).then<ApiRes>(res => res.json())
 
 const getCharactersId = (id: number) => {
-    console.log(id);
+    console.log('id: ', id)
     return id
 }
 
@@ -63,19 +68,28 @@ const App: React.FC = () => {
     }, [page])
 
     return (
-        <div className="App">
-            {loading ? (
-                <p>Loading...</p>
-            ) : (
-                characters.map(character => <p key={character.id} onClick={() => getCharactersId(character.id)}>{character.name}</p>)
-            )}
-            <button disabled={loading} onClick={() => setPage(page - 1)}>
-                Previous
-            </button>
-            <button disabled={loading} onClick={() => setPage(page + 1)}>
-                Next
-            </button>
-        </div>
+        <Router>
+            <Switch>
+                <Route path="/users/:id">
+                    <ViewDetails/>
+                </Route>
+                <Route path="/users">
+                    <div className="App">
+                        {loading ? (
+                            <p>Loading...</p>
+                        ) : (
+                               characters.map(character => <Link to={"/users/" + getCharactersId(character.id)} key={character.id}>{character.name}</Link>)
+                        )}
+                        <button disabled={loading} onClick={() => setPage((page - 1) < 0 ? page : page - 1 )}>
+                            Previous
+                        </button>
+                        <button disabled={loading} onClick={() => setPage((page + 1) > 25 ? page : page + 1 )}>
+                            Next
+                        </button>
+                    </div>
+                </Route>
+            </Switch>
+        </Router>
     )
 };
 

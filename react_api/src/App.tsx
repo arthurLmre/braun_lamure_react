@@ -76,7 +76,6 @@ const App: React.FC = () => {
                 ) : (
                     <List>
                         {characters.map(character => {
-                            const labelId = `checkbox-list-secondary-label-${character}`;
                             return (
                                 <ListItem key={character.id} button>
                                     <ListItemAvatar>
@@ -91,14 +90,18 @@ const App: React.FC = () => {
                         })}
                     </List>
                 )}
-                <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary" disabled={loading}
-                        onClick={() => setPage(page - 1)}>
-                    Previous
-                </Button>
-                <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary" disabled={loading}
-                        onClick={() => setPage(page + 1)}>
-                    Next
-                </Button>
+                <footer className={"Footer"}>
+                    <div className={"CenterButton"}>
+                        <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary" disabled={loading}
+                                onClick={() => setPage(page - 1)}>
+                            Previous
+                        </Button>
+                        <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary" disabled={loading}
+                                onClick={() => setPage(page + 1)}>
+                            Next
+                        </Button>
+                    </div>
+                </footer>
             </div>
         </StylesProvider>
     )

@@ -1,11 +1,11 @@
 import React from 'react';
 import {
     BrowserRouter as Router,
-    Link,
-    Switch,
     Route,
     useParams
 } from 'react-router-dom'
+import {StylesProvider} from "@material-ui/core/styles";
+import "./ViewDetails.css"
 
 type ApiRes = {
     results: Characters[]
@@ -65,12 +65,16 @@ const ViewDetails: React.FC = () => {
     }, [])
 
     return (
-        <Router>
-            <Route path="/users/:id">
-                <h1> {characters?.name} </h1>
-                <img src={characters?.image}/>
-            </Route>
-        </Router>
+        <StylesProvider injectFirst>
+            <Router>
+                <Route path="/users/:id">
+                    <div className={"CenterDetails"}>
+                        <h1> {characters?.name} </h1>
+                        <img src={characters?.image}/>
+                    </div>
+                </Route>
+            </Router>
+        </StylesProvider>
     )
 };
 

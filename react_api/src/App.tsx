@@ -14,6 +14,8 @@ import {
 } from 'react-router-dom'
 import './App.css';
 import ViewDetails from "./viewDetail/ViewDetails";
+import {AppBar, IconButton, InputBase, Typography} from "@material-ui/core";
+import Toolbar from "@material-ui/core/Toolbar";
 
 type ApiRes = {
     results: Characters[]
@@ -76,69 +78,83 @@ const App: React.FC = () => {
 
     return (
         <StylesProvider injectFirst>
-            <div className="App">
-                {loading ? (
-                    <p>Loading...</p>
-                ) : (
-                    <List>
-                        {characters.map(character => {
-                            return (
-                                <ListItem key={character.id} button>
-                                    <ListItemAvatar>
-                                        <Avatar
-                                            alt={`Avatar n°${character.id}`}
-                                            src={`${character.image}`}
+            <Router>
+                <Switch>
+                    <Route path="/users/:id">
+                        <ViewDetails/>
+                    </Route>
+                    <Route path="/">
+                        <div className="App">
+                            <AppBar position="static">
+                                <Toolbar>
+                                    <IconButton
+                                        edge="start"
+                                        className={""}
+                                        color="inherit"
+                                        aria-label="open drawer"
+                                    >
+                                        {/*<MenuIcon />*/}
+                                    </IconButton>
+                                    <Typography className={""} variant="h6" noWrap>
+                                        Rick & Morty
+                                    </Typography>
+                                    <div className={""}>
+                                        <div className={""}>
+                                            {/*<SearchIcon />*/}
+                                        </div>
+                                        <InputBase
+                                            placeholder="Search…"
+                                            classes={{
+                                                // root: classes.inputRoot,
+                                                // input: classes.inputInput,
+                                            }}
+                                            inputProps={{ 'aria-label': 'search' }}
                                         />
-                                    </ListItemAvatar>
-                                    <p>{character.name}</p>
-                                </ListItem>
-                            );
-                        })}
-                    </List>
-                )}
-                <footer className={"Footer"}>
-                    <div className={"CenterButton"}>
-                        <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary" disabled={loading}
-                                onClick={() => setPage(page - 1)}>
-                            Previous
-                        </Button>
-                        <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary" disabled={loading}
-                                onClick={() => setPage(page + 1)}>
-                            Next
-                        </Button>
-                    </div>
-                </footer>
-            </div>
+                                    </div>
+                                </Toolbar>
+                            </AppBar>
+                            {loading ? (
+                                <p>Loading...</p>
+                            ) : (
+                                <List>
+                                    {characters.map(character => {
+                                        return (
+                                            <Link to={"/users/" + getCharactersId(character.id)} key={character.id}>
+                                                <ListItem key={character.id} button>
+                                                    <ListItemAvatar>
+                                                            <Avatar
+                                                                alt={`Avatar n°${character.id}`}
+                                                                src={`${character.image}`}
+                                                            />
+                                                    </ListItemAvatar>
+                                                    <p className={"TextListView"}>{character.name}</p>
+                                                </ListItem>
+                                            </Link>
+                                        );
+                                    })}
+                                </List>
+                            )}
+                            <footer className={"Footer"}>
+                                <div className={"CenterButton"}>
+                                    <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary"
+                                            disabled={loading}
+                                            onClick={() => setPage((page - 1) < 0 ? page : page - 1)}>
+                                        Previous
+                                    </Button>
+                                    <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary"
+                                            disabled={loading}
+                                            onClick={() => setPage((page + 1) > 25 ? page : page + 1)}>
+                                        Next
+                                    </Button>
+                                </div>
+                            </footer>
+                        </div>
+                    </Route>
+                </Switch>
+            </Router>
         </StylesProvider>
-        <Router>
-            <Switch>
-                <Route path="/users/:id">
-                    <ViewDetails/>
-                </Route>
-                <Route path="/users">
-                    <div className="App">
-                        {loading ? (
-                            <p>Loading...</p>
-                        ) : (
-                               characters.map(character => <Link to={"/users/" + getCharactersId(character.id)} key={character.id}>{character.name}</Link>)
-                        )}
-                        <button disabled={loading} onClick={() => setPage((page - 1) < 0 ? page : page - 1 )}>
-                            Previous
-                        </button>
-                        <button disabled={loading} onClick={() => setPage((page + 1) > 25 ? page : page + 1 )}>
-                            Next
-                        </button>
-                    </div>
-                </Route>
-            </Switch>
-        </Router>
+
     )
 };
-
-const transformCharacters = (characters: Characters[]) => {
-    return characters.map(character =>
-        <p key={character.id} onClick={() => getCharactersId(character.id)}>{character.name}</p>
-    )
-}
 
 export default App;

@@ -1,4 +1,11 @@
 import React from 'react';
+import './App.css';
+import Button from '@material-ui/core/Button'
+import {StylesProvider} from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
 import {
     BrowserRouter as Router,
     Link,
@@ -10,7 +17,7 @@ import ViewDetails from "./viewDetail/ViewDetails";
 
 type ApiRes = {
     results: Characters[]
-    info:any
+    info: any
 }
 
 type Characters = {
@@ -36,7 +43,7 @@ type Characters = {
 
 const getCharacters = (page = 1, limit = 2) =>
     fetch(`https://rickandmortyapi.com/api/character/?page=${page}`, {
-        headers: { Accept: 'application/json' },
+        headers: {Accept: 'application/json'},
     }).then<ApiRes>(res => res.json())
 
 const getCharactersId = (id: number) => {
@@ -68,6 +75,41 @@ const App: React.FC = () => {
     }, [page])
 
     return (
+        <StylesProvider injectFirst>
+            <div className="App">
+                {loading ? (
+                    <p>Loading...</p>
+                ) : (
+                    <List>
+                        {characters.map(character => {
+                            return (
+                                <ListItem key={character.id} button>
+                                    <ListItemAvatar>
+                                        <Avatar
+                                            alt={`Avatar n°${character.id}`}
+                                            src={`${character.image}`}
+                                        />
+                                    </ListItemAvatar>
+                                    <p>{character.name}</p>
+                                </ListItem>
+                            );
+                        })}
+                    </List>
+                )}
+                <footer className={"Footer"}>
+                    <div className={"CenterButton"}>
+                        <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary" disabled={loading}
+                                onClick={() => setPage(page - 1)}>
+                            Previous
+                        </Button>
+                        <Button classes={{root: "ButtonStyle"}} variant="contained" color="primary" disabled={loading}
+                                onClick={() => setPage(page + 1)}>
+                            Next
+                        </Button>
+                    </div>
+                </footer>
+            </div>
+        </StylesProvider>
         <Router>
             <Switch>
                 <Route path="/users/:id">
@@ -92,5 +134,11 @@ const App: React.FC = () => {
         </Router>
     )
 };
+
+const transformCharacters = (characters: Characters[]) => {
+    return characters.map(character =>
+        <p key={character.id} onClick={() => getCharactersId(character.id)}>{character.name}</p>
+    )
+}
 
 export default App;

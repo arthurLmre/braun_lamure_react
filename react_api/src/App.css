@@ -20,3 +20,27 @@
 .App-link {
   color: #09d3ac;
 }
+
+.ButtonStyle{
+  margin: 12px;
+  background-color: steelblue;
+}
+
+.ButtonStyle:hover{
+    background-color: #B58A47;
+}
+
+.Footer {
+  position:fixed;
+  bottom: 0;
+  width: 100%;
+
+  background-color: rgba(255,255,255,0.75);
+}
+
+.CenterButton {
+  margin: auto;
+  width: 30%;
+  display: block;
+  justify-content: center;
+}

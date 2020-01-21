@@ -4,7 +4,7 @@ import {
     Route,
     useParams
 } from 'react-router-dom'
-import {StylesProvider} from "@material-ui/core/styles";
+import { StylesProvider } from "@material-ui/core/styles";
 import "./ViewDetails.css"
 
 type ApiRes = {

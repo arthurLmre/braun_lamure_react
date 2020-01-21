@@ -13,6 +13,8 @@
 
 
 .ButtonStyle{
+  height: 5vh;
+  width: 13vw;
   margin: 12px;
   background-color: steelblue;
 }
@@ -42,7 +44,7 @@ a {
 
 
 #rickAndMortyListView {
-  margin: 4.5rem ;
+  margin: 3rem ;
 }
 
 .InputBase {

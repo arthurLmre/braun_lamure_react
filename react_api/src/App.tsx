@@ -1,23 +1,17 @@
 import React from 'react';
 import './App.css';
 import Button from '@material-ui/core/Button'
-import {StylesProvider} from '@material-ui/core/styles';
+import {fade, makeStyles, StylesProvider} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import {
-    BrowserRouter as Router,
-    Link,
-    Switch,
-    Route
-} from 'react-router-dom'
+import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import ViewDetails from "./viewDetail/ViewDetails";
@@ -106,7 +100,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-
 const getCharacters = (page = 1, limit = 2) =>
     fetch(`https://rickandmortyapi.com/api/character/?page=${page}`, {
         headers: {Accept: 'application/json'},
@@ -116,6 +109,65 @@ const getCharactersId = (id: number) => {
     console.log('id: ', id)
     return id
 }
+
+const CustomAppBar = () => {
+    const classes = useStyles();
+    return (
+        <AppBar position="static" className={"MenuBar"}>
+            <Toolbar>
+                <IconButton
+                    edge="start"
+                    className={classes.menuButton}
+                    color="inherit"
+                    aria-label="open drawer"
+                >
+                    <MenuIcon/>
+                </IconButton>
+                <Typography className={classes.title} variant="h6" noWrap>
+                    Material-UI
+                </Typography>
+                <div className={classes.search}>
+                    <div className={classes.searchIcon}>
+                        <SearchIcon/>
+                    </div>
+                    <InputBase
+                        placeholder="Search…"
+                        classes={{
+                            root: classes.inputRoot,
+                            input: classes.inputInput,
+                        }}
+                        inputProps={{'aria-label': 'search'}}
+                    />
+                </div>
+            </Toolbar>
+        </AppBar>
+    )
+};
+
+type CustomListViewProps = { characters: Characters[] }
+
+const CustomListView = ({characters}: CustomListViewProps) => {
+    return characters.length === 0 ? null : (
+        <List id={"rickAndMortyListView"}>
+            {
+                characters.map(character => {
+                    return (
+                        <Link to={"/users/" + getCharactersId(character.id)} key={character.id}>
+                            <ListItem key={character.id} button>
+                                <ListItemAvatar>
+                                    <Avatar
+                                        alt={`Avatar n°${character.id}`}
+                                        src={`${character.image}`}
+                                    />
+                                </ListItemAvatar>
+                                <p className={"TextListView"}>{character.name}</p>
+                            </ListItem>
+                        </Link>
+                    );
+                })}
+        </List>
+    )
+};
 
 
 const App: React.FC = () => {
@@ -149,54 +201,11 @@ const App: React.FC = () => {
                     </Route>
                     <Route path="/">
                         <div className="App">
-                            <AppBar position="static" className={"MenuBar"}>
-                                <Toolbar>
-                                    <IconButton
-                                        edge="start"
-                                        className={useStyles().menuButton}
-                                        color="inherit"
-                                        aria-label="open drawer"
-                                    >
-                                        <MenuIcon />
-                                    </IconButton>
-                                    <Typography className={useStyles().title} variant="h6" noWrap>
-                                        Material-UI
-                                    </Typography>
-                                    <div className={useStyles().search}>
-                                        <div className={useStyles().searchIcon}>
-                                            <SearchIcon />
-                                        </div>
-                                        <InputBase
-                                            placeholder="Search…"
-                                            classes={{
-                                                root: useStyles().inputRoot,
-                                                input: useStyles().inputInput,
-                                            }}
-                                            inputProps={{ 'aria-label': 'search' }}
-                                        />
-                                    </div>
-                                </Toolbar>
-                            </AppBar>
+                            <CustomAppBar/>
                             {loading ? (
                                 <p>Loading...</p>
                             ) : (
-                                <List id={"rickAndMortyListView"}>
-                                    {characters.map(character => {
-                                        return (
-                                            <Link to={"/users/" + getCharactersId(character.id)} key={character.id}>
-                                                <ListItem key={character.id} button>
-                                                    <ListItemAvatar>
-                                                            <Avatar
-                                                                alt={`Avatar n°${character.id}`}
-                                                                src={`${character.image}`}
-                                                            />
-                                                    </ListItemAvatar>
-                                                    <p className={"TextListView"}>{character.name}</p>
-                                                </ListItem>
-                                            </Link>
-                                        );
-                                    })}
-                                </List>
+                                <CustomListView characters={characters}/>
                             )}
                             <footer className={"Footer"}>
                                 <div className={"CenterButton"}>

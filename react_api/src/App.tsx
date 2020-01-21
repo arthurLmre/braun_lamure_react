@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import './App.css';
 import Button from '@material-ui/core/Button'
 import {fade, makeStyles, StylesProvider} from '@material-ui/core/styles';
@@ -111,7 +111,12 @@ const getCharactersId = (id: number) => {
     return id
 }
 
-const CustomAppBar = () => {
+type CustomAppBarProps = {
+    inputCharacterName: String,
+    setInputCharacterName: any
+}
+
+const CustomAppBar = ({inputCharacterName,setInputCharacterName}: CustomAppBarProps) => {
     const classes = useStyles();
     return (
         <AppBar position="static" className={"MenuBar"}>
@@ -138,6 +143,8 @@ const CustomAppBar = () => {
                             input: classes.inputInput,
                         }}
                         inputProps={{'aria-label': 'search'}}
+                        value={inputCharacterName}
+                        onChange={(e) => setInputCharacterName(e.target.value)}
                     />
                 </div>
             </Toolbar>
@@ -177,6 +184,7 @@ const App: React.FC = () => {
     const [page, setPage] = React.useState(1)
     const [inputCharacterName, setInputCharacterName] = React.useState("")
 
+
     React.useEffect(() => {
         let cancel = false
         setLoading(true)
@@ -193,7 +201,7 @@ const App: React.FC = () => {
         return () => {
             cancel = true
         }
-    }, [page])
+    }, [page, inputCharacterName])
 
     return (
         <StylesProvider injectFirst>
@@ -204,7 +212,7 @@ const App: React.FC = () => {
                     </Route>
                     <Route path="/">
                         <div className="App">
-                            <CustomAppBar/>
+                            <CustomAppBar inputCharacterName={inputCharacterName} setInputCharacterName={setInputCharacterName}/>
                             {loading ? (
                                 <div className="lds-ripple"><div></div><div></div></div>
                             ) : (

@@ -99,6 +99,8 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+
+
 const getCharacters = (page = 1, name: string = "") =>
     fetch(name == "" ? `https://rickandmortyapi.com/api/character/?page=${page}` : `https://rickandmortyapi.com/api/character/?name=+${name}+`, {
         headers: {Accept: 'application/json'},
@@ -108,7 +110,9 @@ const getCharactersId = (id: number) => {
     return id
 }
 
-const CustomAppBar = () => {
+type CustomAppBarProps = { inputCharacterName: string, setInputCharacterName:any}
+
+const CustomAppBar = ({inputCharacterName, setInputCharacterName}: CustomAppBarProps) => {
     const classes = useStyles();
     return (
         <AppBar position="static" className={"MenuBar"}>
@@ -135,6 +139,8 @@ const CustomAppBar = () => {
                             input: classes.inputInput,
                         }}
                         inputProps={{'aria-label': 'search'}}
+                        onChange={(e) => setInputCharacterName(e.target.value)}
+                        value={inputCharacterName}
                     />
                 </div>
             </Toolbar>
@@ -179,6 +185,7 @@ const App: React.FC = () => {
         setLoading(true)
 
         getCharacters(page, inputCharacterName).then(data => {
+            console.log('data: ', data);
             if (!cancel) {
                 if(data != null && data.results != null){
                     setCharacters(data.results.map(d => d))
@@ -201,7 +208,7 @@ const App: React.FC = () => {
                     </Route>
                     <Route path="/">
                         <div className="App">
-                            <CustomAppBar/>
+                            <CustomAppBar inputCharacterName={inputCharacterName} setInputCharacterName={setInputCharacterName}/>
                             {loading ? (
                                  <div className="lds-ripple"><div></div><div></div></div>
                             ) : (

@@ -1,11 +1,18 @@
 import React from 'react';
 import {
-    BrowserRouter as Router,
+    BrowserRouter as Router, Link,
     Route,
     useParams
 } from 'react-router-dom'
 import { StylesProvider } from "@material-ui/core/styles";
 import "./ViewDetails.css"
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import Typography from "@material-ui/core/Typography";
+import SearchIcon from "@material-ui/icons/Search";
+import InputBase from "@material-ui/core/InputBase";
 
 type ApiRes = {
     results: Characters[]
@@ -38,7 +45,7 @@ const getCharacterById = (id: any) =>
         headers: { Accept: 'application/json' },
     }).then<Characters>(res => res.json())
 
-
+const goBack = () => window.history.back();
 
 const ViewDetails: React.FC = () => {
     const [characters, setCharacters] = React.useState<Characters>()
@@ -48,8 +55,6 @@ const ViewDetails: React.FC = () => {
     React.useEffect(() => {
         let cancel = false
         setLoading(true)
-
-
 
         getCharacterById(id).then(data => {
             if (!cancel) {
@@ -68,13 +73,18 @@ const ViewDetails: React.FC = () => {
         <StylesProvider injectFirst>
             <Router>
                 <Route path="/users/:id">
-                    <div className={"CenterDetails"}>
-                        <h1> {characters?.name} </h1>
-                        <img src={characters?.image}/>
-                        <p> {characters?.species} </p>
-                        <p> {characters?.location.name} </p>
-                        <p> {characters?.status} </p>
-                    </div>
+                    {loading ? (
+                        <div className="lds-ripple"><div></div><div></div></div>
+                    ): (
+                        <div className={"CenterDetails box-blue"}>
+                            <h1 className={"text-style-title"}> {characters?.name} </h1>
+                            <img className={"img-round"} src={characters?.image} alt={"image profile"}/>
+                            <p className={"text-style-content"}> {characters?.species} </p>
+                            <p className={"text-style-content"}> {characters?.location.name} </p>
+                            <p className={"text-style-content"}> {characters?.status} </p>
+                            <button className={"back-btn text-style-btn"} onClick={goBack}>Retour</button>
+                        </div>
+                    )}
                 </Route>
             </Router>
         </StylesProvider>

@@ -6,10 +6,9 @@
 }
 
 .box-blue {
-    margin-top: 3.09vh;
     padding: 1.54vh 0;
     max-width: 33vw;
-    min-height: 85vh;
+    min-width: 33vw;
     background: #3f51b5;
     border-radius: 25px;
     box-shadow: 5px 5px 5px #666;
@@ -23,35 +22,58 @@
 
 .img-round {
     border-radius: 25px;
-    margin-bottom: 3.5vh;
+    max-width: 26vw;
+    min-width: 26vw;
+}
+
+.card-content {
+    border-top: white solid 1px;
+    border-bottom: white solid 1px;
 }
 
 .text-style-title {
-    font-family: "American Typewriter";
-    font-weight: 400;
+    font-family: Skia;
+    font-weight: 700;
     font-size: 4vw;
-    margin: 1.54vh 0 2vh 0 !important;
 }
 
 .text-style-content {
-    font-family: "American Typewriter";
+    font-family: Skia;
     font-weight: 400;
     font-size: 1.5vw;
-    margin: 1.54vh 0 !important;
-
 }
 
 .text-style-btn{
-    font-family: "American Typewriter";
-    font-weight: 400;
-    font-size: 1.2vw;
-    margin: 1.54vh 0 !important;
-
+    font-family: Skia;
+    font-weight: 700;
+    font-size: 1.4vw;
 }
 
 .back-btn {
-    margin-top: 5vh;
     border-radius: 35px;
     background: wheat;
     color: #3f51b5;
+    padding: 0.5vw 1.3vw;
+}
+
+
+.no-margin{
+    margin: 0 !important;
+}
+
+.margin-top-10 {
+    margin-top: 1.55vh !important;
+}
+
+.margin-top-20 {
+    margin-top: 3.1vh !important;
+}
+
+.margin-top-25 {
+    margin-top: 3.86vh !important;
+}
+
+
+.margin-bottom-10 {
+    margin-bottom: 1.55vh !important;
 }

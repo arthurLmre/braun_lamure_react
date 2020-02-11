@@ -76,13 +76,15 @@ const ViewDetails: React.FC = () => {
                     {loading ? (
                         <div className="lds-ripple"><div></div><div></div></div>
                     ): (
-                        <div className={"CenterDetails box-blue"}>
-                            <h1 className={"text-style-title"}> {characters?.name} </h1>
-                            <img className={"img-round"} src={characters?.image} alt={"image profile"}/>
-                            <p className={"text-style-content"}> {characters?.species} </p>
-                            <p className={"text-style-content"}> {characters?.location.name} </p>
-                            <p className={"text-style-content"}> {characters?.status} </p>
-                            <button className={"back-btn text-style-btn"} onClick={goBack}>Retour</button>
+                        <div className={"CenterDetails box-blue margin-top-25"}>
+                            <h1 className={"text-style-title no-margin margin-top-25"}> {characters?.name} </h1>
+                            <img className={"img-round margin-top-20"} src={characters?.image} alt={"image profile"}/>
+                            <div className={"card-content margin-top-20"}>
+                                <p className={"text-style-content no-margin margin-top-10"}> {characters?.species} </p>
+                                <p className={"text-style-content no-margin margin-top-10"}> {characters?.location.name} </p>
+                                <p className={"text-style-content no-margin margin-top-10 margin-bottom-10"}> {characters?.status} </p>
+                            </div>
+                            <button className={"back-btn text-style-btn margin-top-20 margin-bottom-10"} onClick={goBack}>Retour</button>
                         </div>
                     )}
                 </Route>

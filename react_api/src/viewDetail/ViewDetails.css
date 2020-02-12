@@ -1,0 +1,79 @@
+.CenterDetails {
+    margin: auto;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+}
+
+.box-blue {
+    padding: 1.54vh 0;
+    max-width: 33vw;
+    min-width: 33vw;
+    background: #3f51b5;
+    border-radius: 25px;
+    box-shadow: 5px 5px 5px #666;
+    -moz-box-shadow: 5px 5px 5px #666;
+    -webkit-box-shadow: 5px 5px 5px #666;
+}
+
+.box-blue > * {
+    color: white;
+}
+
+.img-round {
+    border-radius: 25px;
+    max-width: 26vw;
+    min-width: 26vw;
+}
+
+.card-content {
+    border-top: white solid 1px;
+    border-bottom: white solid 1px;
+}
+
+.text-style-title {
+    font-family: Skia;
+    font-weight: 700;
+    font-size: 4vw;
+}
+
+.text-style-content {
+    font-family: Skia;
+    font-weight: 400;
+    font-size: 1.5vw;
+}
+
+.text-style-btn{
+    font-family: Skia;
+    font-weight: 700;
+    font-size: 1.4vw;
+}
+
+.back-btn {
+    border-radius: 35px;
+    background: wheat;
+    color: #3f51b5;
+    padding: 0.5vw 1.3vw;
+}
+
+
+.no-margin{
+    margin: 0 !important;
+}
+
+.margin-top-10 {
+    margin-top: 1.55vh !important;
+}
+
+.margin-top-20 {
+    margin-top: 3.1vh !important;
+}
+
+.margin-top-25 {
+    margin-top: 3.86vh !important;
+}
+
+
+.margin-bottom-10 {
+    margin-bottom: 1.55vh !important;
+}

@@ -1,7 +1,3 @@
-.App {
-  text-align: center;
-}
-
 .App-logo {
   height: 40vmin;
 }
@@ -11,12 +7,46 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #09d3ac;
+
+.ButtonStyle{
+  height: 5vh;
+  width: 13vw;
+  margin: 12px;
+  background-color: steelblue;
+}
+
+.ButtonStyle:hover{
+    background-color: #B58A47;
+}
+
+.Footer {
+  position:fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(255,255,255,0.75);
+}
+
+.CenterButton {
+  margin: auto;
+  width: 30%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+
+#rickAndMortyListView {
+  margin: 3rem ;
+}
+
+.InputBase {
+  padding: 1px 1px 1px 7px;
 }
